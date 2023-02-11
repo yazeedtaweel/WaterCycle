@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.water_cycle">
+    package="com.example.water_cycle_android">
    <application
-        android:label="water_cycle"
+        android:label="water_cycle_android"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

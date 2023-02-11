@@ -1,6 +1,6 @@
-# water_cycle
+# water_cycle_android
 
-A new Flutter application.
+A new Flutter project.
 
 ## Getting Started
 
