@@ -19,15 +19,17 @@ class FirestoreHelper{
   }
 
   Future<List<RegionModel>> getAllRegions() async {
-    CollectionReference regions = FirebaseFirestore.instance.collection('regions');
     QuerySnapshot<Map<String, dynamic>> querySnapshot =
     await firebaseFirestore.collection('regions').get();
-    // await regions.doc("UBegz7IB118iFJbPi3VH").get().then((value){
-    //   print("Latifa");
-    // });
-    List<RegionModel> regionss = querySnapshot.docs.map((e) {
+    List<RegionModel> regions = querySnapshot.docs.map((e) {
       return RegionModel.fromJson(e.data());
     }).toList();
-    return regionss;
+    return regions;
+  }
+  updateStatus(RegionModel regionModel) async {
+    await firebaseFirestore
+        .collection('regions')
+        .doc(regionModel.id)
+        .update(regionModel.toMap());
   }
 }

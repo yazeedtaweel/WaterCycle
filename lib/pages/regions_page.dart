@@ -15,6 +15,13 @@ class RegionsPage extends StatefulWidget {
 class _RegionsPageState extends State<RegionsPage> {
   bool _value = false;
   @override
+  void initState() {
+    super.initState();
+    Provider.of<RegionsProvider>(context, listen: false)
+        .getRegionsFromFirestore();
+    // Provider.of<RegionsProvider>(context, listen: true).
+  }
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -51,11 +58,14 @@ class _RegionsPageState extends State<RegionsPage> {
                             autofocus: false,
                             activeColor: Colors.green,
                             checkColor: Colors.white,
-                            selected: _value,
-                            value: _value,
+                            selected: provider.regions[index].status ?? false,
+                            value: provider.regions[index].status,
                             onChanged: (value) {
                               setState(() {
+                                _value = provider.regions[index].status ?? false;
                                 _value = !_value;
+                                provider.newStatus = _value;
+                                provider.setStatus(provider.regions[index]);
                               });
                             },
                           ),

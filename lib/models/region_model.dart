@@ -7,6 +7,7 @@ class RegionModel {
   RegionModel({
     @required this.name,
     @required this.status,
+    this.id
   });
 
   RegionModel.fromJson(Map map) {
