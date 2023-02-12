@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:water_cycle_android/pages/regions_page.dart';
 import 'package:water_cycle_android/pages/splash_screen.dart';
+import 'package:water_cycle_android/pages/users_page.dart';
 import 'package:water_cycle_android/providers/regions_provider.dart';
 import 'package:water_cycle_android/services/routes_helper.dart';
 
@@ -15,6 +16,7 @@ Future<void> main() async {
       child: MaterialApp(
         routes: {
           RegionsPage.routeName: (context) => RegionsPage(),
+          UsersPage.routeName: (context) => UsersPage(),
         },
         navigatorKey: RouteHelper.routeHelper.navKey,
         home: FirebaseConfiguration(),
