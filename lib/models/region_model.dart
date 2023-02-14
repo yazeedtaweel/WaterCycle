@@ -10,6 +10,8 @@ class RegionModel {
   RegionModel({
     @required this.name,
     @required this.status,
+    @required this.start_date,
+    @required this.end_date,
     this.id
   });
 

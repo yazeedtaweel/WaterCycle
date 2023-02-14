@@ -30,11 +30,20 @@ class RegionsProvider extends ChangeNotifier{
   // }
 
   setStatus(RegionModel regionModel) async{
-    RegionModel newRegionModel = RegionModel(
+    RegionModel newRegionModel = newStatus==true ? RegionModel(
         name: regionModel.name,
         status: newStatus,
         id: regionModel.id,
+        start_date: Timestamp.now(),
+        end_date: regionModel.end_date,
+    ):RegionModel(
+      name: regionModel.name,
+      status: newStatus,
+      id: regionModel.id,
+      end_date: Timestamp.now(),
+      start_date: regionModel.start_date,
     );
+
     await FirestoreHelper.firestoreHelper.updateStatus(newRegionModel);
     getRegionsFromFirestore();
   }

@@ -13,15 +13,15 @@ class SplashScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     Future.delayed(Duration(seconds: 2)).then(
           (value) {
-            // RouteHelper.routeHelper.goToPageWithReplacement(RegionsPage.routeName);
-            RouteHelper.routeHelper.goToPageWithReplacement(UsersPage.routeName);
-        // Provider.of<RegionsProvider>(context, listen: false).checkLogin();
+            RouteHelper.routeHelper.goToPageWithReplacement(RegionsPage.routeName);
+            // RouteHelper.routeHelper.goToPageWithReplacement(UsersPage.routeName);
+            // Provider.of<RegionsProvider>(context, listen: false).checkLogin();
       },
     );
-    return Scaffold(
-      body: Center(
-        child: Text('Splach Screen'),
-      ),
-    );
+      return Scaffold(
+        body: Center(
+          child: Text('Splach Screen'),
+        ),
+      );
   }
 }

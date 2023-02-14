@@ -48,18 +48,17 @@ class _RegionsPageState extends State<RegionsPage> {
                   itemCount: provider.regions?.length,
                   itemBuilder: (context, index) {
                     return Container(
-                      margin: EdgeInsets.all(10),
-                      padding: EdgeInsets.all(10),
+                      // margin: EdgeInsets.all(10),
+                      padding: EdgeInsets.symmetric(vertical: 1.0, horizontal: 5.0),
                       child: Column(
                         children: [
-                          CheckboxListTile(
+                          SwitchListTile(
                             title: Text(provider.regions[index].name ?? "error"),
                             secondary: const Icon(Icons.water_damage),
                             autofocus: false,
-                            activeColor: Colors.green,
-                            checkColor: Colors.white,
+                            activeColor: Colors.teal,
                             selected: provider.regions[index].status ?? false,
-                            value: provider.regions[index].status,
+                            value: provider.regions[index].status ?? false,
                             onChanged: (value) {
                               setState(() {
                                 _value = provider.regions[index].status ?? false;

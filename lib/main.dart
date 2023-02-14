@@ -20,6 +20,7 @@ Future<void> main() async {
         },
         navigatorKey: RouteHelper.routeHelper.navKey,
         home: FirebaseConfiguration(),
+        debugShowCheckedModeBanner: false,
       ),
     ),
   );
