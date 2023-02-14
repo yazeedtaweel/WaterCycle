@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -25,6 +26,7 @@ class _UsersPageState extends State<UsersPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+
         title: Text('Water Cycle in Samu'),
         backgroundColor: Colors.greenAccent[400],
       ),
@@ -43,8 +45,8 @@ class _UsersPageState extends State<UsersPage> {
                           Card(
                             child: ListTile(
                                 title: Text(provider.regions[index].name ?? "error"),
-                                subtitle: Text("إخر دورة: قبل 2 يوم"),
-                              leading:Text(provider.regions[index].status == true?"جارية":"مقطوعة"),
+                                subtitle: provider.regions[index].status == true ? Text(provider.cycleDuration(provider.regions[index].start_date??Timestamp.now())): Text(provider.durationforDisconnectedCycle(provider.regions[index].start_date??Timestamp.now(), provider.regions[index].end_date??Timestamp.now())),
+                                leading:Text(provider.regions[index].status == true?"جارية":"مقطوعة"),
                             ),
                           ),
                         ],
