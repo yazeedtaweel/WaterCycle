@@ -26,9 +26,8 @@ class _UsersPageState extends State<UsersPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-
-        title: Text('Water Cycle in Samu'),
-        backgroundColor: Colors.greenAccent[400],
+        title: Text('توزيع المياه على مناطق السموع'),
+        backgroundColor: Colors.teal,
       ),
       body: Consumer<RegionsProvider>(
         builder: (context, provider, x) {
@@ -45,8 +44,12 @@ class _UsersPageState extends State<UsersPage> {
                           Card(
                             child: ListTile(
                                 title: Text(provider.regions[index].name ?? "error"),
-                                subtitle: provider.regions[index].status == true ? Text(provider.cycleDuration(provider.regions[index].start_date??Timestamp.now())): Text(provider.durationforDisconnectedCycle(provider.regions[index].start_date??Timestamp.now(), provider.regions[index].end_date??Timestamp.now())),
-                                leading:Text(provider.regions[index].status == true?"جارية":"مقطوعة"),
+                                subtitle: provider.regions[index].status == true ?
+                                Text(provider.cycleDuration(provider.regions[index].start_date??Timestamp.now())):
+                                Text(provider.durationForDisconnectedCycle(provider.regions[index].start_date??Timestamp.now(), provider.regions[index].end_date??Timestamp.now())),
+                                trailing:Text(provider.regions[index].status == true?"جارية":"مقطوعة"),
+                                // horizontalTitleGap: 80.0,
+
                             ),
                           ),
                         ],

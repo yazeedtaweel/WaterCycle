@@ -39,18 +39,16 @@ class RegionsProvider extends ChangeNotifier{
     getRegionsFromFirestore();
   }
 
-  String cycleDuration(Timestamp start_date)  {
-    DateTime start_date_time = TimestampConverter.timestampConverter.TimeStampToDateTime(start_date);
-    DateTime now_date = DateTime.now();
-    final duration = now_date.difference(start_date_time).inDays;
-    return  "منذ "+duration.toString() +" يوم ";
+  String cycleDuration(Timestamp startDate)  {
+    DateTime startDateTime = TimestampConverter.timestampConverter.TimeStampToDateTime(startDate);
+    final duration = DateTime.now().difference(startDateTime).inDays;
+    return  "منذ $duration يوم ";
   }
-  String durationforDisconnectedCycle(Timestamp start_date, Timestamp end_date)  {
-    DateTime start_date_time = TimestampConverter.timestampConverter.TimeStampToDateTime(start_date);
-    DateTime end_date_time = TimestampConverter.timestampConverter.TimeStampToDateTime(end_date);
-    DateTime now_date = DateTime.now();
-    final fromDate = now_date.difference(start_date_time).inDays;
-    final last_duration = end_date_time.difference(start_date_time).inDays;
-    return  "منذ "+fromDate.toString() +" يوم "+", واستمرت لمدة "+last_duration.toString()+" يوم";
+  String durationForDisconnectedCycle(Timestamp startDate, Timestamp endDate)  {
+    DateTime startDateTime = TimestampConverter.timestampConverter.TimeStampToDateTime(startDate);
+    DateTime endDateTime = TimestampConverter.timestampConverter.TimeStampToDateTime(endDate);
+    final fromDate = DateTime.now().difference(startDateTime).inDays;
+    final lastDuration = endDateTime.difference(startDateTime).inDays;
+    return  "منذ $fromDate يوم , واستمرت لمدة $lastDuration يوم";
   }
 }

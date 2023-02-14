@@ -25,8 +25,8 @@ class _RegionsPageState extends State<RegionsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Water Cycle in Samu'),
-          backgroundColor: Colors.greenAccent[400],
+        title: Text('توزيع المياه على مناطق السموع'),
+        backgroundColor: Colors.teal,
           //IconButton
           // actions:[
           //   IconButton(
