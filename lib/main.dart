@@ -1,8 +1,10 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:water_cycle_android/pages/regions_page.dart';
 import 'package:water_cycle_android/pages/splash_screen.dart';
+import 'package:water_cycle_android/pages/user_login.dart';
 import 'package:water_cycle_android/pages/users_page.dart';
 import 'package:water_cycle_android/providers/regions_provider.dart';
 import 'package:water_cycle_android/services/routes_helper.dart';
@@ -14,9 +16,18 @@ Future<void> main() async {
     ChangeNotifierProvider<RegionsProvider>(
       create: (context) => RegionsProvider(),
       child: MaterialApp(
+        localizationsDelegates: [
+          GlobalCupertinoLocalizations.delegate,
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+        ],
+        supportedLocales: [
+          Locale("ar", "PS"),
+        ],
         routes: {
           RegionsPage.routeName: (context) => RegionsPage(),
           UsersPage.routeName: (context) => UsersPage(),
+          UserForm.routeName: (context) => UserForm(),
         },
         navigatorKey: RouteHelper.routeHelper.navKey,
         home: FirebaseConfiguration(),

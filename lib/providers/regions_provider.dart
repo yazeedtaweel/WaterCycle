@@ -1,17 +1,28 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:water_cycle_android/helpers/firestore_helper.dart';
 import 'package:water_cycle_android/models/region_model.dart';
+import 'package:water_cycle_android/pages/regions_page.dart';
 
+import '../helpers/auth_helper.dart';
+import '../services/routes_helper.dart';
 import '../services/time_helper.dart';
 
 class RegionsProvider extends ChangeNotifier{
+  RegionsProvider._();
+
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+
+  static RegionsProvider regionsProvider = RegionsProvider._();
 
   TabController? tabController;
   RegionModel? region;
   List<RegionModel> regions = List.filled(1, RegionModel(name: "e", status: false));
   bool? newStatus;
+  bool? loggedIn = false;
 
   RegionsProvider(){
     getRegionsFromFirestore();
@@ -23,11 +34,6 @@ class RegionsProvider extends ChangeNotifier{
     this.regions = regions;
     notifyListeners();
   }
-
-
-  // Future<bool> getStatus() async{
-  //   QuerySnapshot<
-  // }
 
   setStatus(RegionModel regionModel) async{
     RegionModel newRegionModel = newStatus==true ? RegionModel(
@@ -59,5 +65,20 @@ class RegionsProvider extends ChangeNotifier{
     final fromDate = DateTime.now().difference(startDateTime).inDays;
     final lastDuration = endDateTime.difference(startDateTime).inDays;
     return  "منذ $fromDate يوم , واستمرت لمدة $lastDuration يوم";
+  }
+
+
+  resetControllers() {
+    emailController.clear();
+    passwordController.clear();
+  }
+
+  login() async {
+    UserCredential? userCredential = await AuthHelper.authHelper
+        .signIn(emailController.text, passwordController.text);
+    if (userCredential != null) {
+      RouteHelper.routeHelper.goToPageWithReplacement(RegionsPage.routeName);
+    }
+    resetControllers();
   }
 }

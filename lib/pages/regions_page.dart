@@ -1,7 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:water_cycle_android/pages/users_page.dart';
 import 'package:water_cycle_android/providers/regions_provider.dart';
+
+import '../services/main_drawer.dart';
+import '../services/routes_helper.dart';
 
 class RegionsPage extends StatefulWidget {
   static final routeName = 'regions';
@@ -19,26 +23,14 @@ class _RegionsPageState extends State<RegionsPage> {
     super.initState();
     Provider.of<RegionsProvider>(context, listen: false)
         .getRegionsFromFirestore();
-    // Provider.of<RegionsProvider>(context, listen: true).
   }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: MainDrawer(),
       appBar: AppBar(
         title: Text('توزيع المياه على مناطق السموع'),
         backgroundColor: Colors.teal,
-          //IconButton
-          // actions:[
-          //   IconButton(
-          //     color: Colors.white,
-          //     icon: const Icon(Icons.add),
-          //     tooltip: 'Add region',
-          //     onPressed: () {
-          //       setState(() {
-          //       });
-          //     },
-          //   ),
-          // ]
       ),
       body: Consumer<RegionsProvider>(
         builder: (context, provider, x) {

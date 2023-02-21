@@ -13,8 +13,8 @@ class SplashScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     Future.delayed(Duration(seconds: 2)).then(
           (value) {
-            RouteHelper.routeHelper.goToPageWithReplacement(RegionsPage.routeName);
-            // RouteHelper.routeHelper.goToPageWithReplacement(UsersPage.routeName);
+            // RouteHelper.routeHelper.goToPageWithReplacement(RegionsPage.routeName);
+            RouteHelper.routeHelper.goToPageWithReplacement(UsersPage.routeName);
             // Provider.of<RegionsProvider>(context, listen: false).checkLogin();
       },
     );

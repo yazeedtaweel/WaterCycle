@@ -2,8 +2,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:water_cycle_android/services/main_drawer.dart';
 
 import '../providers/regions_provider.dart';
+import '../services/routes_helper.dart';
 
 class UsersPage extends StatefulWidget {
   static final routeName = 'users_page';
@@ -20,11 +22,13 @@ class _UsersPageState extends State<UsersPage> {
     super.initState();
     Provider.of<RegionsProvider>(context, listen: false)
         .getRegionsFromFirestore();
+    Provider.of<RegionsProvider>(context, listen: false).loggedIn = false;
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: MainDrawer(),
       appBar: AppBar(
         title: Text('توزيع المياه على مناطق السموع'),
         backgroundColor: Colors.teal,
