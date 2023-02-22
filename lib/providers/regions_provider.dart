@@ -7,6 +7,7 @@ import 'package:water_cycle_android/models/region_model.dart';
 import 'package:water_cycle_android/pages/regions_page.dart';
 
 import '../helpers/auth_helper.dart';
+import '../helpers/shared_pref_helper.dart';
 import '../services/routes_helper.dart';
 import '../services/time_helper.dart';
 
@@ -24,15 +25,22 @@ class RegionsProvider extends ChangeNotifier{
   bool? newStatus;
   UserCredential? _userCredential ;
 
+  List<String> favouriteIds = List.generate(0, (index) => "");
+
   RegionsProvider(){
     getRegionsFromFirestore();
   }
 
+  Future<List<String>> getFavoriteItems() async{
+    favouriteIds =  await preferences.getStringList("favourite", favouriteIds);
+     notifyListeners();
+    return favouriteIds;
+  } 
   getRegionsFromFirestore() async {
     List<RegionModel> regions =
     await FirestoreHelper.firestoreHelper.getAllRegions();
     this.regions = regions;
-    notifyListeners();
+     notifyListeners();
   }
 
   setStatus(RegionModel regionModel) async{
@@ -40,14 +48,14 @@ class RegionsProvider extends ChangeNotifier{
         name: regionModel.name,
         status: newStatus,
         id: regionModel.id,
-        start_date: Timestamp.now(),
-        end_date: regionModel.end_date,
+        startDate: Timestamp.now(),
+        endDate: regionModel.endDate,
     ):RegionModel(
       name: regionModel.name,
       status: newStatus,
       id: regionModel.id,
-      end_date: Timestamp.now(),
-      start_date: regionModel.start_date,
+      endDate: Timestamp.now(),
+      startDate: regionModel.startDate,
     );
 
     await FirestoreHelper.firestoreHelper.updateStatus(newRegionModel);
@@ -91,4 +99,21 @@ class RegionsProvider extends ChangeNotifier{
     }
     resetControllers();
   }
+
+  Future saveFavouriteItem(id) async{
+    favouriteIds.add(id);
+    await saveFavouriteList(favouriteIds);
+    notifyListeners();
+  }
+
+  Future deleteFavouriteItem(id) async{
+    favouriteIds.remove(id);
+    await saveFavouriteList(favouriteIds);
+    notifyListeners();
+  }
+
+  Future<void> saveFavouriteList(List<String> favouriteList) async{
+     await preferences.saveStringList("favourite", favouriteList);
+  }
+
 }

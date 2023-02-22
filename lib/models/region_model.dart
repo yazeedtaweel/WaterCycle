@@ -4,14 +4,14 @@ class RegionModel {
   String? id;
   String? name;
   bool? status = false;
-  Timestamp? start_date;
-  Timestamp? end_date;
+  Timestamp? startDate;
+  Timestamp? endDate;
 
   RegionModel({
     @required this.name,
     @required this.status,
-    @required this.start_date,
-    @required this.end_date,
+    @required this.startDate,
+    @required this.endDate,
     this.id
   });
 
@@ -19,8 +19,8 @@ class RegionModel {
     id = map['id'];
     name = map['name'];
     status = map['status'];
-    start_date = map['start_date'];
-    end_date = map['end_date'];
+    startDate = map['start_date'];
+    endDate = map['end_date'];
   }
 
   Map<String, dynamic> toMap(){
@@ -28,8 +28,8 @@ class RegionModel {
       "id": id,
       "name": name,
       "status": status,
-      "start_date": start_date,
-      "end_date": end_date,
+      "start_date": startDate,
+      "end_date": endDate,
     };
   }
 }

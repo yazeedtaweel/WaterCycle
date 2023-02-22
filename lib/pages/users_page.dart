@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:water_cycle_android/helpers/shared_pref_helper.dart';
 import 'package:water_cycle_android/services/main_drawer.dart';
 
 import '../providers/regions_provider.dart';
@@ -22,7 +23,13 @@ class _UsersPageState extends State<UsersPage> {
     super.initState();
     Provider.of<RegionsProvider>(context, listen: false)
         .getRegionsFromFirestore();
+    Provider.of<RegionsProvider>(context, listen: false).getFavoriteItems();
+
   }
+  Future<bool> isFavouriteItem(String id) async{
+    return await preferences.getBool(id, false);
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -39,6 +46,12 @@ class _UsersPageState extends State<UsersPage> {
               : ListView.builder(
                   itemCount: provider.regions.length,
                   itemBuilder: (context, index) {
+                    String? id = provider.regions[index].id;
+                    bool isFavourite =  provider.favouriteIds.contains(id);
+                    String? name = provider.regions[index].name;
+                    bool? status = provider.regions[index].status;
+                    Timestamp? startDate = provider.regions[index].startDate;
+                    Timestamp? endDate =  provider.regions[index].endDate;
                     return Container(
                       margin: EdgeInsets.all(10),
                       padding: EdgeInsets.all(10),
@@ -46,15 +59,25 @@ class _UsersPageState extends State<UsersPage> {
                         children: [
                           Card(
                             child: ListTile(
-                                title: Text(provider.regions[index].name ?? "error"),
-                                subtitle: provider.regions[index].status == true ?
-                                Text(provider.cycleDuration(provider.regions[index].start_date??Timestamp.now())):
-                                Text(provider.durationForDisconnectedCycle(provider.regions[index].start_date??Timestamp.now(), provider.regions[index].end_date??Timestamp.now())),
-                                trailing:Text(provider.regions[index].status == true?"جارية":"مقطوعة"),
+                                title: Text(name ?? "error"),
+                                subtitle: status == true ?
+                                Text(provider.cycleDuration(startDate ??Timestamp.now())):
+                                Text(provider.durationForDisconnectedCycle(startDate ??Timestamp.now(), endDate ?? Timestamp.now())),
+                                trailing:Text(status == true?"جارية":"مقطوعة"),
+                                leading: Icon(
+                                  isFavourite
+                                      ? Icons.star
+                                      : Icons.star_border,
+                                  color: isFavourite ? Colors.yellow : null,
+                                ),
+                                onTap: ()  async {
+                                    isFavourite
+                                        ? await provider.deleteFavouriteItem(id)
+                                        : await provider.saveFavouriteItem(id);
+                                },
+                              ),
                                 // horizontalTitleGap: 80.0,
-
                             ),
-                          ),
                         ],
                       ),
                     );
