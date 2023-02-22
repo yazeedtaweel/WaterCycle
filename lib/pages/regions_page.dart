@@ -21,6 +21,10 @@ class _RegionsPageState extends State<RegionsPage> {
   @override
   void initState() {
     super.initState();
+    bool? isLoggedIn = Provider.of<RegionsProvider>(context, listen: false).getCredentials != null;
+    if(isLoggedIn == null || !isLoggedIn){
+       RouteHelper.routeHelper.goToPageWithReplacement(UsersPage.routeName);
+    }
     Provider.of<RegionsProvider>(context, listen: false)
         .getRegionsFromFirestore();
   }

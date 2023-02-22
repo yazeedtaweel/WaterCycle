@@ -22,7 +22,6 @@ class _UsersPageState extends State<UsersPage> {
     super.initState();
     Provider.of<RegionsProvider>(context, listen: false)
         .getRegionsFromFirestore();
-    Provider.of<RegionsProvider>(context, listen: false).loggedIn = false;
   }
 
   @override

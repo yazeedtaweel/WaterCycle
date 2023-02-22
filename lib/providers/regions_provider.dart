@@ -22,7 +22,7 @@ class RegionsProvider extends ChangeNotifier{
   RegionModel? region;
   List<RegionModel> regions = List.filled(1, RegionModel(name: "e", status: false));
   bool? newStatus;
-  bool? loggedIn = false;
+  UserCredential? _userCredential ;
 
   RegionsProvider(){
     getRegionsFromFirestore();
@@ -73,10 +73,20 @@ class RegionsProvider extends ChangeNotifier{
     passwordController.clear();
   }
 
+  UserCredential? get getCredentials{
+    return _userCredential;
+  }
+
+  void logout(){
+    _userCredential = null;
+    notifyListeners();
+  }
+
   login() async {
-    UserCredential? userCredential = await AuthHelper.authHelper
+   _userCredential = await AuthHelper.authHelper
         .signIn(emailController.text, passwordController.text);
-    if (userCredential != null) {
+   notifyListeners();
+    if (_userCredential != null) {
       RouteHelper.routeHelper.goToPageWithReplacement(RegionsPage.routeName);
     }
     resetControllers();

@@ -22,46 +22,48 @@ class _MainDrawerState extends State<MainDrawer> {
 
   @override
   Widget build(BuildContext context) {
-    return Drawer(
-      child: ListView(
-        // Important: Remove any padding from the ListView.
-        padding: EdgeInsets.zero,
-        children: <Widget>[
-          const DrawerHeader(
-            decoration: BoxDecoration(
-              color: Colors.teal,
+    return  Consumer<RegionsProvider>(
+        builder: (context, provider, x)
+    {
+      return Drawer(
+        child: ListView(
+          // Important: Remove any padding from the ListView.
+          padding: EdgeInsets.zero,
+          children: <Widget>[
+            const DrawerHeader(
+              decoration: BoxDecoration(
+                color: Colors.teal,
+              ),
+              child: Text(
+                "",
+                style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold),
+              ),
             ),
-            child: Text(
-              "",
-              style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold),
-            ),
-          ),
-          RegionsProvider.regionsProvider.loggedIn == false ?ListTile(
-            leading: const Icon(Icons.add),
-            title:  const Text('تسجيل الدخول'),
-            onTap: () {
-              setState(() {
-                RegionsProvider.regionsProvider.loggedIn = true;
-
-              });
-              RouteHelper.routeHelper.goToPageWithReplacement(UserForm.routeName);
-            },
-          ):ListTile(
-            leading: const Icon(Icons.add),
-            title:  const Text("تسجيل الخروج"),
-            onTap: () {
-              setState(() {
-                RegionsProvider.regionsProvider.loggedIn = false;
-
-              });
-              RouteHelper.routeHelper.goToPageWithReplacement(UsersPage.routeName);
-            },
-          )
-        ],
-      ),
+            provider.getCredentials == null ? ListTile(
+              leading: const Icon(Icons.add),
+              title: const Text('تسجيل الدخول'),
+              onTap: () {
+                RouteHelper.routeHelper.goToPage(UserForm.routeName);
+              },
+            ) : ListTile(
+              leading: const Icon(Icons.add),
+              title: const Text("تسجيل الخروج"),
+              onTap: () {
+                setState(() {
+                  provider.logout();
+                });
+                RouteHelper.routeHelper.goToPageWithReplacement(
+                    UsersPage.routeName);
+              },
+            )
+          ],
+        ),
+      );
+    }
     );
+
   }
 }
