@@ -6,6 +6,7 @@ import 'package:water_cycle_android/helpers/shared_pref_helper.dart';
 import 'package:water_cycle_android/services/main_drawer.dart';
 
 import '../providers/regions_provider.dart';
+import '../services/notification_service.dart';
 import '../services/routes_helper.dart';
 
 class UsersPage extends StatefulWidget {
@@ -18,6 +19,7 @@ class UsersPage extends StatefulWidget {
 }
 
 class _UsersPageState extends State<UsersPage> {
+  final NotificationService _notificationService = NotificationService();
   @override
   void initState() {
     super.initState();
@@ -53,8 +55,8 @@ class _UsersPageState extends State<UsersPage> {
                     Timestamp? startDate = provider.regions[index].startDate;
                     Timestamp? endDate =  provider.regions[index].endDate;
                     return Container(
-                      margin: EdgeInsets.all(10),
-                      padding: EdgeInsets.all(10),
+                      margin: const EdgeInsets.all(10),
+                      padding: const EdgeInsets.all(10),
                       child: Column(
                         children: [
                           Card(
@@ -68,7 +70,7 @@ class _UsersPageState extends State<UsersPage> {
                                   isFavourite
                                       ? Icons.star
                                       : Icons.star_border,
-                                  color: isFavourite ? Colors.yellow : null,
+                                  color: isFavourite ? Colors.amber : null,
                                 ),
                                 onTap: ()  async {
                                     isFavourite
@@ -78,6 +80,12 @@ class _UsersPageState extends State<UsersPage> {
                               ),
                                 // horizontalTitleGap: 80.0,
                             ),
+                                ElevatedButton(
+                                child: const Text('Show Notification'),
+                                    onPressed: () async {
+                                    await _notificationService.showNotifications();
+                                    },
+                                )
                         ],
                       ),
                     );
