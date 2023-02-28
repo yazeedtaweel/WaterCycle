@@ -39,8 +39,11 @@ class RegionsProvider extends ChangeNotifier{
   getRegionsFromFirestore() async {
     List<RegionModel> regions =
     await FirestoreHelper.firestoreHelper.getAllRegions();
-    this.regions = regions;
-     notifyListeners();
+    regions.sort((a, b) =>
+        favouriteIds.indexOf(a.id??"").compareTo(favouriteIds.indexOf(b.id??""))
+    );
+    this.regions = regions.reversed.toList();
+    notifyListeners();
   }
 
   setStatus(RegionModel regionModel) async{
@@ -65,14 +68,20 @@ class RegionsProvider extends ChangeNotifier{
   String cycleDuration(Timestamp startDate)  {
     DateTime startDateTime = TimestampConverter.timestampConverter.TimeStampToDateTime(startDate);
     final duration = DateTime.now().difference(startDateTime).inDays;
-    return  "منذ $duration يوم ";
+    if(duration == 0)
+      return "منذ اقل من يوم";
+    else
+      return  "منذ $duration يوم ";
   }
   String durationForDisconnectedCycle(Timestamp startDate, Timestamp endDate)  {
     DateTime startDateTime = TimestampConverter.timestampConverter.TimeStampToDateTime(startDate);
     DateTime endDateTime = TimestampConverter.timestampConverter.TimeStampToDateTime(endDate);
-    final fromDate = DateTime.now().difference(startDateTime).inDays;
+    final fromDate = DateTime.now().difference(endDateTime).inDays;
     final lastDuration = endDateTime.difference(startDateTime).inDays;
-    return  "منذ $fromDate يوم , واستمرت لمدة $lastDuration يوم";
+    if(fromDate == 0)
+      return  "انقطعت قبل اقل من يوم, واستمرت لمدة $lastDuration يوم";
+    else
+      return  "منذ $fromDate يوم , واستمرت لمدة $lastDuration يوم";
   }
 
 
@@ -103,17 +112,20 @@ class RegionsProvider extends ChangeNotifier{
   Future saveFavouriteItem(id) async{
     favouriteIds.add(id);
     await saveFavouriteList(favouriteIds);
+    getRegionsFromFirestore();
     notifyListeners();
   }
 
   Future deleteFavouriteItem(id) async{
     favouriteIds.remove(id);
     await saveFavouriteList(favouriteIds);
+    getRegionsFromFirestore();
     notifyListeners();
   }
 
   Future<void> saveFavouriteList(List<String> favouriteList) async{
      await preferences.saveStringList("favourite", favouriteList);
   }
+
 
 }

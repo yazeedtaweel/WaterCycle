@@ -5,6 +5,7 @@ import 'package:water_cycle_android/pages/regions_page.dart';
 import 'package:water_cycle_android/pages/users_page.dart';
 import 'package:water_cycle_android/providers/regions_provider.dart';
 import 'package:water_cycle_android/services/routes_helper.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 class SplashScreen extends StatelessWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -20,7 +21,12 @@ class SplashScreen extends StatelessWidget {
     );
       return Scaffold(
         body: Center(
-          child: Text('Splach Screen'),
+          child: LoadingAnimationWidget.bouncingBall(
+            color: Colors.teal,
+            // leftDotColor: const Color(0xFF1A1A3F),
+            // rightDotColor: const Color(0xFFEA3799),
+            size: 100,
+          ),
         ),
       );
   }
