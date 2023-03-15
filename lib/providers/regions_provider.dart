@@ -76,13 +76,19 @@ class RegionsProvider extends ChangeNotifier{
   String durationForDisconnectedCycle(Timestamp startDate, Timestamp endDate)  {
     DateTime startDateTime = TimestampConverter.timestampConverter.TimeStampToDateTime(startDate);
     DateTime endDateTime = TimestampConverter.timestampConverter.TimeStampToDateTime(endDate);
-    final fromDate = DateTime.now().difference(endDateTime).inDays;
-    final lastDuration = endDateTime.difference(startDateTime).inDays;
-    if(fromDate == 0)
+    var fromDate = DateTime.now().difference(endDateTime).inDays;
+    var lastDuration = endDateTime.difference(startDateTime).inDays;
+
+    if(lastDuration == 0 && fromDate == 0)
+      return  "مقطوعة منذ اقل من يوم , واستمرت لمدة اقل من يوم";
+    else if(lastDuration == 0 && fromDate !=0)
+      return  "مقطوعة منذ $fromDate يوم , واستمرت لمدة اقل من يوم";
+    else
+    if(fromDate == 0 && lastDuration !=0)
       return  "انقطعت قبل اقل من يوم, واستمرت لمدة $lastDuration يوم";
     else
-      return  "منذ $fromDate يوم , واستمرت لمدة $lastDuration يوم";
-  }
+      return  "مقطوعة منذ $fromDate يوم , واستمرت لمدة $lastDuration يوم";
+    }
 
 
   resetControllers() {
