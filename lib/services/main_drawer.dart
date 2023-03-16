@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:water_cycle_android/pages/regions_page.dart';
-import 'package:water_cycle_android/pages/user_login.dart';
+import 'package:water_cycle_android/admin_pages/regions_page.dart';
+import 'package:water_cycle_android/admin_pages/user_login.dart';
 import 'package:water_cycle_android/providers/regions_provider.dart';
 import 'package:water_cycle_android/services/routes_helper.dart';
 
+import '../admin_pages/suggestions_list.dart';
+import '../pages/suggestion_page.dart';
 import '../pages/users_page.dart';
 
 
@@ -58,7 +60,23 @@ class _MainDrawerState extends State<MainDrawer> {
                 RouteHelper.routeHelper.goToPageWithReplacement(
                     UsersPage.routeName);
               },
+            ),
+            provider.getCredentials == null?ListTile(
+              leading: const Icon(Icons.add),
+              title: const Text('إقتراحات وشكاوي'),
+              onTap: () {
+                RouteHelper.routeHelper.goToPage(FeedbackDialog.routeName);
+                // const FeedbackDialog();
+              },
+            ):ListTile(
+              leading: const Icon(Icons.add),
+              title: const Text('الاقتراحات والشكاوي'),
+              onTap: () {
+                RouteHelper.routeHelper.goToPage(SuggestionsList.routeName);
+                // const FeedbackDialog();
+              },
             )
+
           ],
         ),
       );

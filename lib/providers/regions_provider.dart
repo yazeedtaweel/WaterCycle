@@ -4,10 +4,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:water_cycle_android/helpers/firestore_helper.dart';
 import 'package:water_cycle_android/models/region_model.dart';
-import 'package:water_cycle_android/pages/regions_page.dart';
+import 'package:water_cycle_android/admin_pages/regions_page.dart';
 
 import '../helpers/auth_helper.dart';
 import '../helpers/shared_pref_helper.dart';
+import '../models/feedback_model.dart';
 import '../services/routes_helper.dart';
 import '../services/time_helper.dart';
 
@@ -21,7 +22,8 @@ class RegionsProvider extends ChangeNotifier{
 
   TabController? tabController;
   RegionModel? region;
-  List<RegionModel> regions = List.filled(1, RegionModel(name: "e", status: false));
+  List<RegionModel> regions = List.filled(1, RegionModel(name: "", status: false));
+  List<FeedBackModel> feedback = List.filled(1, FeedBackModel(feedback: ""));
   bool? newStatus;
   UserCredential? _userCredential ;
 
@@ -29,6 +31,7 @@ class RegionsProvider extends ChangeNotifier{
 
   RegionsProvider(){
     getRegionsFromFirestore();
+    getfeedbackFromFirestore();
   }
 
   Future<List<String>> getFavoriteItems() async{
@@ -43,6 +46,11 @@ class RegionsProvider extends ChangeNotifier{
         favouriteIds.indexOf(a.id??"").compareTo(favouriteIds.indexOf(b.id??""))
     );
     this.regions = regions.reversed.toList();
+    notifyListeners();
+  }
+  getfeedbackFromFirestore() async {
+     feedback =
+    await FirestoreHelper.firestoreHelper.getFeedBack();
     notifyListeners();
   }
 
