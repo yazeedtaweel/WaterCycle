@@ -63,25 +63,23 @@ class _SuggestionsListState extends State<SuggestionsList> {
                 itemCount: provider.feedback.length,
                 itemBuilder: (context, index) {
                   String? feedbackText = provider.feedback[index].feedback;
+                  String? phoneNum = provider.feedback[index].phoneNum;
                   DateTime? date =  TimestampConverter.timestampConverter.TimeStampToDateTime(provider.feedback[index].timestamp??Timestamp.now());
-                  return Container(
-                    margin: EdgeInsets.all(10),
-                    padding: EdgeInsets.all(10),
-                    child: Column(
-                      children: [
-                        Card(
-                          child: ListTile(
-                            title: Text(feedbackText ?? "error"),
-                            subtitle:
-                            Text(DateFormat('yyyy-MM-dd – kk:mm').format(date) ?? Timestamp.now().toString(),
-                            style: const TextStyle(
-                              fontSize: 10
-                            ),)
-                          ),
-                          // horizontalTitleGap: 80.0,
+                  return Column(
+                    children: [
+                      Card(
+                        child: ListTile(
+                          title: Text(feedbackText ?? "error"),
+                          subtitle: Text(phoneNum??""),
+                          trailing:
+                          Text(DateFormat('yyyy-MM-dd – kk:mm').format(date) ?? Timestamp.now().toString(),
+                          style: const TextStyle(
+                            fontSize: 10
+                          ),)
                         ),
-                      ],
-                    ),
+                        // horizontalTitleGap: 80.0,
+                      ),
+                    ],
                   );
                 });
           },

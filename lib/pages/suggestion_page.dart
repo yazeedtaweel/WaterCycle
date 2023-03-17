@@ -12,6 +12,7 @@ class FeedbackDialog extends StatefulWidget {
 
 class _FeedbackDialogState extends State<FeedbackDialog> {
   final TextEditingController _controller = TextEditingController();
+  final TextEditingController _phoneController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey();
 
   @override
@@ -32,23 +33,43 @@ class _FeedbackDialogState extends State<FeedbackDialog> {
         alignment: Alignment.topCenter,
         content: Form(
           key: _formKey,
-          child: TextFormField(
-            controller: _controller,
-            keyboardType: TextInputType.multiline,
-            decoration: const InputDecoration(
-              hintText: 'ادخل إقتراحك هنا',
-              // filled: true,
-            ),
-            maxLines: 5,
-            maxLength: 4096,
-            textInputAction: TextInputAction.done,
-            validator: (String? text) {
-              if (text == null || text.isEmpty) {
-                return 'من فضلك ادخل اقتراحك';
-              }
-              return null;
-            },
-          ),
+          child:Column(
+            children: [
+              Expanded(
+                child: TextFormField(
+                  controller: _controller,
+                  keyboardType: TextInputType.multiline,
+                  decoration: const InputDecoration(
+                    hintText: 'ادخل إقتراحك هنا',
+                    // filled: true,
+                  ),
+                  maxLines: 5,
+                  maxLength: 4096,
+                  textInputAction: TextInputAction.done,
+                  validator: (String? text) {
+                    if (text == null || text.isEmpty) {
+                      return 'من فضلك ادخل اقتراحك';
+                    }
+                    return null;
+                  },
+                ),
+              ),
+              // const SizedBox(
+              //   height: 50,
+              // ),
+              Expanded(
+                child: TextFormField(
+                  controller: _phoneController,
+                  decoration: const InputDecoration(
+                    hintText: 'ادخل رقم هاتفك للتواصل(اختياري)',
+                    // filled: true,
+                  ),
+                ),
+              )
+            ],
+          )
+
+
         ),
         actions: [
           TextButton(
@@ -78,6 +99,7 @@ class _FeedbackDialogState extends State<FeedbackDialog> {
                   await collection.doc().set({
                     'timestamp': FieldValue.serverTimestamp(),
                     'feedback': _controller.text,
+                    'phoneNum': _phoneController.text,
                   });
 
                   message = 'Feedback sent successfully';

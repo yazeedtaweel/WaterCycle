@@ -4,10 +4,12 @@ class FeedBackModel {
   String? id;
   String? feedback;
   Timestamp? timestamp;
+  String? phoneNum;
 
   FeedBackModel({
     @required this.feedback,
     @required this.timestamp,
+    this.phoneNum,
     this.id
   });
 
@@ -15,6 +17,7 @@ class FeedBackModel {
     // id = map['id'];
     feedback = map['feedback'];
     timestamp = map['timestamp'];
+    phoneNum = map['phoneNum'];
   }
 
   Map<String, dynamic> toMap(){
@@ -22,6 +25,7 @@ class FeedBackModel {
       // "id": id,
       "feedback": feedback,
       "timestamp": timestamp,
+      "phoneNum": phoneNum,
     };
   }
 }
